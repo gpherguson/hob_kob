@@ -1,0 +1,12 @@
+This software is an experiement, and has no guarantee that it will do anything
+for anyone. It might work, or it might cause damage to your system, so you use
+it at your own risk.
+
+This is a tracker for the Guitar Center's "King of the Blues" contest, which
+usually occurs at the House of Blues. It scans various search engines looking
+for pages about the upcoming 2011 contest.
+
+The YAML file contains the API keys for each engine, needed to get access when
+searching. It also contains regex and substring searches for each engine to
+help rule out false-positives. 
+

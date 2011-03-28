@@ -1,0 +1,49 @@
+!!!
+%html
+  %head
+    %title= "'#{ QUERY }' : #{ Time.now.strftime('%c') }"
+    %style{ :type => 'text/css' }
+      th { text-align: left; }
+  %body
+    %table
+      - if (google_search_results.any?)
+        %tr
+          %th{ :colspan => 2 }= "#{ google_search_results.size } Google results"
+        - google_search_results.each_with_index do |r, i|
+          %tr
+            %td= "#{ 1 + i }."
+            %td= r['titleNoFormatting']
+          %tr
+            %td &nbsp;
+            %td
+              %a{ :href => r['unescapedUrl'] }= r['unescapedUrl']
+            
+        %tr
+          %td{ :colspan => 2 } &nbsp;
+
+      - if (yahoo_search_results.any?)
+        %tr 
+          %th{ :colspan => 2 }= "#{ yahoo_search_results.size } Yahoo results"
+        - yahoo_search_results.each_with_index do |r, i|
+          %tr
+            %td= "#{ 1 + i }."
+            %td= r['abstract']
+          %tr
+            %td &nbsp;
+            %td 
+              %a{ :href => r['url'] }= r['url']
+            
+        %tr
+          %td{ :colspan => 2 } &nbsp;
+      
+      - if (bing_search_results.any?)
+        %tr
+          %th{ :colspan => 2 }= "#{ bing_search_results.size } Bing results"
+          - bing_search_results.each_with_index do |r, i|
+            %tr
+              %td= "#{ 1 + i }."
+              %td= r['Description']
+            %tr
+              %td &nbsp;
+              %td
+                %a{ :href => r['Url'] }= r['Url']
