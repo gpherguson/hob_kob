@@ -10,3 +10,11 @@ The YAML file contains the API keys for each engine, needed to get access when
 searching. It also contains regex and substring searches for each engine to
 help rule out false-positives. 
 
+The spec tests will need to have the respective API key added for each search
+engine.
+
+----------------------
+
+hob_backing_tracks_and_charts.rb - Downloads the current PDFs associated with
+the backing tracks used by the contestants. It doesn't download the MP3's but
+that could be added easily.

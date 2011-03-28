@@ -8,7 +8,7 @@ require 'searchers/bing'
 describe Bing, '#new' do
   
   it 'creates a new instance' do
-    bing = Bing.new('')
+    bing = Bing.new('API_KEY', '')
     bing.should be_kind_of(Bing)
   end
   

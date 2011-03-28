@@ -6,7 +6,7 @@ require 'searchers/google'
 
 describe Google, '#new' do
   it 'creates a new instance' do
-    google = Google.new('', '', '')
+    google = Google.new('API_KEY', '', '', '')
     google.class.should == Google
   end
   

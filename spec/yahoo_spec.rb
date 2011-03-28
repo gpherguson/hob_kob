@@ -10,7 +10,7 @@ SITES_TO_CHECK = %w[yahoo.com]
 
 describe Yahoo, '#new' do
   it 'should create a new instance' do
-    yahoo = Yahoo.new('')
+    yahoo = Yahoo.new('API_KEY', '')
     yahoo.class.should == Yahoo
   end
   
