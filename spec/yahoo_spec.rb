@@ -1,4 +1,4 @@
-#!/usr/bin/env rspec
+require 'minitest/autorun'
 
 require 'addressable/uri'
 require 'addressable/template'
@@ -8,65 +8,115 @@ require 'searchers/yahoo'
 QUERY = 'yahoo'
 SITES_TO_CHECK = %w[yahoo.com]
 
-describe Yahoo, '#new' do
-  it 'should create a new instance' do
+class Yahoo < MiniTest::Unit::TestCase
+
+  def test_new
     yahoo = Yahoo.new('API_KEY', '')
-    yahoo.class.should == Yahoo
+
+    assert_kind_of(Yahoo, yahoo.class)
   end
   
-  it 'has a required query parameter with accessors' do
+  def test_query
     query = 'query'
     yahoo = Yahoo.new(query)
-    yahoo.query.should == query
+
+    assert_equal(query, yahoo.query)
     
     yahoo.query = ''
-    yahoo.query.should be_empty
+    assert_empty(yahoo.query)
   end
   
-  it 'has an optional args parameter with accessors' do
+  def test_args
     yahoo = Yahoo.new('')
-    yahoo.args.should == {}
+    assert_equal({}, yahoo.args)
     
     yahoo.args = {:a => 1}
-    yahoo.args.should == {:a => 1}
+    assert_equal({:a => 1}, yahoo.args)
   end
   
-  it 'has search results set to nil when initialized' do
+  def test_response_code
     yahoo = Yahoo.new('')
     
-    yahoo.response_code.should be_nil
-    yahoo.next_page.should be_nil
-    yahoo.total_hits.should be_nil
-    yahoo.deep_hits.should be_nil
-    yahoo.count.should be_nil
-    yahoo.start_page.should be_nil
+    assert_nil(yahoo.response_code)
+  end
+
+  def test_next_page
+    yahoo = Yahoo.new('')
+
+    assert_nil(yahoo.next_page)
+  end
+
+  def test_total_hits
+    yahoo = Yahoo.new('')
+
+    assert_nil(yahoo.total_hits)
+  end
+
+  def test_deep_hits
+    yahoo = Yahoo.new('')
+
+    assert_nil(yahoo.deep_hits)
+  end
+
+  def test_count
+    yahoo = Yahoo.new('')
+
+    assert_nil(yahoo.count)
+  end
+
+  def test_start_page
+    yahoo = Yahoo.new('')
+
+    assert_nil(yahoo.start_page)
   end
   
-end
-
-describe Yahoo, '#search' do
-  it 'should get content as a hash and populate result values' do
+  def test_results
     yahoo = Yahoo.new(QUERY, :sites => SITES_TO_CHECK)
     yahoo_results = yahoo.search
-    yahoo_results.should_not be_empty
-    yahoo_results.class.should be_kind_of(Array)
-    
-    yahoo.response_code.should_not be_nil
-    yahoo.response_code.should be_a_kind_of(Fixnum)
-    
-    yahoo.next_page.should_not be_nil
-    yahoo.next_page.should be_a_kind_of(String)
 
-    yahoo.total_hits.should_not be_nil
-    yahoo.total_hits.should be_a_kind_of(Fixnum)
-
-    yahoo.deep_hits.should_not be_nil
-    yahoo.deep_hits.should be_a_kind_of(Fixnum)
+    refute_empty(yahoo_results)
+    assert_kind_of(Array, yahoo_results)
+  end
     
-    yahoo.count.should_not be_nil
-    yahoo.count.should be_a_kind_of(Fixnum)
+  def test_response_code
+    yahoo = Yahoo.new(QUERY, :sites => SITES_TO_CHECK)
 
-    yahoo.start_page.should_not be_nil
-    yahoo.start_page.should be_a_kind_of(Fixnum)
+    refute_nil(yahoo.response_code)
+    assert_kind_of(Fixnum, yahoo.response_code)
+  end
+
+  def test_next_page
+    yahoo = Yahoo.new(QUERY, :sites => SITES_TO_CHECK)
+    
+    refute_nil(yahoo.next_page)
+    assert_kind_of(String, yahoo.next_page)
+  end
+
+  def test_total_hits
+    yahoo = Yahoo.new(QUERY, :sites => SITES_TO_CHECK)
+
+    refute_nil(yahoo.total_hits)
+    assert_kind_of(Fixnum, yahoo.total_hits)
+  end
+
+  def test_deep_hits
+    yahoo = Yahoo.new(QUERY, :sites => SITES_TO_CHECK)
+
+    refute_nil(yahoo.deep_hits)
+    assert_kind_of(Fixnum, yahoo.deep_hits)
+  end
+
+  def test_count
+    yahoo = Yahoo.new(QUERY, :sites => SITES_TO_CHECK)
+    
+    refute_nil(yahoo.count)
+    assert_kind_of(Fixnum, yahoo.count)
+  end
+
+  def test_start_page
+    yahoo = Yahoo.new(QUERY, :sites => SITES_TO_CHECK)
+
+    refute_nil(yahoo.start_page)
+    assert_kind_of(Fixnum, yahoo.start_page)
   end
 end

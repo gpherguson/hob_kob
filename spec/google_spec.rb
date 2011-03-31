@@ -1,87 +1,94 @@
-#!/usr/bin/env rspec
+require 'minitest/autorun'
 
 require 'addressable/uri'
 require 'json'
-require 'searchers/google'
+require 'yaml'
+require_relative '../lib/searchers/google'
 
-describe Google, '#new' do
-  it 'creates a new instance' do
-    google = Google.new('API_KEY', '', '', '')
-    google.class.should == Google
+ 
+class TestGoogle < MiniTest::Unit::TestCase 
+
+  def test_new 
+    google = Google.new('key', 'query')
+    assert_kind_of(Google, google)
   end
   
-  it 'takes a required query with accessors' do
+  def test_query 
     query = 'query'
-    google = Google.new(query, '', '')
-    google.query.should == query
+    google = Google.new('key', query)
+    assert_equal(query, google.query)
     
     google.query = ''
-    google.query.should be_empty
+    assert_empty(google.query)
+    assert_equal('', google.query)
   end
   
-  it 'takes a required ip_number number with accessors' do
+  def test_ip_number
     ip_number = '127.0.0.1'
-    google = Google.new('', ip_number, '')
-    google.ip_number.should == ip_number
+
+    google = Google.new('key', 'query', ip_number)
+    assert_equal(ip_number, google.ip_number)
     
     google.ip_number = ''
-    google.ip_number.should be_empty
+    assert_empty(google.ip_number)
   end
   
-  it 'takes a required referrer_site with accessors' do
+  def test_referrer_site
     referrer_site = 'referrer_site'
-    google = Google.new('', '', referrer_site)
-    google.referrer_site.should == referrer_site
+
+    google = Google.new('key', 'query', 'ip', referrer_site)
+    assert_equal(referrer_site, google.referrer_site)
     
     google.referrer_site = ''
-    google.referrer_site.should be_empty
+    assert_empty(google.referrer_site)
   end
   
-  it 'takes optional args with accessors' do
-    google = Google.new('', '', '')
-    google.args.should be_empty
+  def test_args
+    google = Google.new('key', 'query', 'ip')
 
-    google = Google.new('', '', '', {'a' => 1})
-    google.args.should == {'a' => 1}
+    assert_empty(google.args)
+
+    google = Google.new('key', 'query', 'ip', 'referrer_site', {'a' => 1})
+    assert_equal({'a' => 1}, google.args)
     
     google.args = {'a' => 2}
-    google.args.should == {'a' => 2}
+    assert_equal({'a' => 2}, google.args)
   end
   
-  it 'creates a instance variable for cursor initialized to nil' do
-    google = Google.new('', '', '')
-    google.cursor.should be_nil
-  end  
-end
+  def test_cursor
+    google = Google.new('key', 'query')
 
-describe Google, '#search' do
-  before(:all) do
-    @google = Google.new('"derek trucks"')
-    @google_results = @google.search
+    assert_nil(google.cursor)
+  end  
+
+  def test_google_results
+    config = YAML::load_file('../king_of_the_blues.yaml')
+
+    google = Google.new(config[:api_keys][:google],'"derek trucks"')
+
+    google_results = google.search
+    assert_kind_of(Array, google_results)
+    refute_empty(google_results)
   end
   
-  it 'should return an array that is not empty' do
-    @google_results.should be_kind_of(Array)
-    @google_results.should_not be_empty
-  end
-  
-  it 'should populate the cursor object' do
-    cursor = @google.cursor
-    
-    cursor.should_not be_nil
-    cursor.should be_kind_of(Google::Cursor)
-    
-    cursor.pages.should be_kind_of(Array)
-    
-    cursor.estimated_result_count.should be_kind_of(Fixnum)
-    cursor.estimated_result_count.should >= 0
-    
-    cursor.current_page_index.should be_kind_of(Fixnum)
-    cursor.current_page_index.should == 0
-    
-    cursor.more_results_url.should_not be_nil
-    cursor.more_results_url.should be_kind_of(String)
-    cursor.more_results_url.should_not be_empty
-  end
+  # def test_cursor
+  #   google = Google.new('key','query')
+  #   cursor = google.cursor
+  #   
+  #   assert_nil(cursor)
+  #   # assert_kind_of(Google::Cursor, cursor)
+  #   
+  #   assert_kind_of(Array, cursor.pages)
+  #   
+  #   assert_kind_of(Fixnum, cursor.estimated_result_count)
+  #   assert(cursor.estimated_result_count >= 0)
+  #   
+  #   assert_kind_of(Fixnum, cursor.current_page_index)
+  #   assert_equal(cursor.current_page_index, 0)
+  #   
+  #   refute_nil(cursor.more_results_url)
+  #   assert_kind_of(String, cursor.more_results_url)
+  #   refute_empty(cursor.more_results_url)
+  # end
   
 end

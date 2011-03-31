@@ -1,37 +1,34 @@
-#!/usr/bin/env rspec
+require 'minitest/autorun'
 
 require 'addressable/uri'
 require 'json'
 require 'open-uri'
 require 'searchers/bing'
 
-describe Bing, '#new' do
+class Bing < MiniTest::Unit::TestCase
   
-  it 'creates a new instance' do
-    bing = Bing.new('API_KEY', '')
-    bing.should be_kind_of(Bing)
+  def test_new 
+    b = Bing.new('API_KEY', '')
+    assert_kind_of(Bing, b)
   end
   
-  it 'has a query that can be accessed via accessors' do
+  def test_query 
     query = 'query'
     
     bing = Bing.new(query)
-    bing.query.should == query
+    assert_equal(query, bing.query)
     
     bing.query = ''
-    bing.query.should be_empty
+    assert_equal('', bing.query)
   end
   
-  it 'has args that can be accessed via accessors' do
+  def test_args 
     arguments = {'one' => 1, 'two' => 2}
     
     bing = Bing.new('', arguments)
-    bing.args.should == arguments
+    assert_equal(arguments, bing.args)
     
     bing.args = {}
-    bing.args.should == {}
+    assert_equal({}, bing.args)
   end
-end
-
-describe Bing, '#search' do
 end
