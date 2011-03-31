@@ -26,13 +26,14 @@ class Google
   # key is the API key.
   # query is the string to search for.
   # args can be: :sites
-  def initialize(key, query, ip_number = nil, referrer_site = nil, args={})
+  def initialize(key, query, ip_number = nil, referrer_site = '', args={})
 
     @google_api_key = key
     @query          = query
     
-    @referrer_site = referrer_site || ''
     @ip_number = ip_number || IPSocket.getaddress(Socket.gethostname)
+
+    @referrer_site = referrer_site
 
     @args = args
 
