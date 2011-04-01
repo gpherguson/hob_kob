@@ -71,6 +71,9 @@ class TestYahoo < MiniTest::Unit::TestCase
     # move down
   end
   
+  # These tests need the results of a live run, so, rather than do it again and
+  # again, or use a mock, which would be the right thing to do, get a request
+  # once and poke at it repeatedly.
   def test_results
     config = YAML::load_file('../king_of_the_blues.yaml')
     yahoo = Yahoo.new(config[:api_keys][:yahoo], QUERY, :sites => SITES_TO_CHECK)
