@@ -35,42 +35,6 @@ class TestYahoo < MiniTest::Unit::TestCase
     assert_equal({:a => 1}, yahoo.args)
   end
   
-  def test_response_code
-    yahoo = Yahoo.new('key','query')
-    
-    # move down
-  end
-
-  def test_next_page
-    yahoo = Yahoo.new('key','query')
-
-    # move down
-  end
-
-  def test_total_hits
-    yahoo = Yahoo.new('key','query')
-
-    # move down
-  end
-
-  def test_deep_hits
-    yahoo = Yahoo.new('key','query')
-
-    # move down
-  end
-
-  def test_count
-    yahoo = Yahoo.new('key','query')
-
-    # move down
-  end
-
-  def test_start_page
-    yahoo = Yahoo.new('key','query')
-
-    # move down
-  end
-  
   # These tests need the results of a live run, so, rather than do it again and
   # again, or use a mock, which would be the right thing to do, get a request
   # once and poke at it repeatedly.
