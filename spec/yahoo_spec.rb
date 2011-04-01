@@ -7,7 +7,7 @@ require 'yaml'
 require_relative '../lib/searchers/yahoo'
 
 QUERY = 'yahoo'
-SITES_TO_CHECK = %w[yahoo.com]
+SITES_TO_CHECK = %w[ yahoo.com ]
 
 class TestYahoo < MiniTest::Unit::TestCase
 
@@ -100,9 +100,5 @@ class TestYahoo < MiniTest::Unit::TestCase
     refute_nil(yahoo.start_page)
     assert_kind_of(Fixnum, yahoo.start_page)
     assert_equal(0, yahoo.start_page)
-
-    # refute_empty(yahoo.results)
-    # assert_kind_of(Array, yahoo.results)
-    # refute_empty(yahoo.results)
   end
 end
