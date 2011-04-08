@@ -48,11 +48,13 @@ class TestGoogle < MiniTest::Unit::TestCase
 
     assert_empty(google.args)
 
-    google = Google.new('key', 'query', 'ip', 'referrer_site', {'a' => 1})
-    assert_equal({'a' => 1}, google.args)
+    hash = {'a' => 1}
+    google = Google.new('key', 'query', 'ip', 'referrer_site', hash)
+    assert_equal(hash, google.args)
     
-    google.args = {'a' => 2}
-    assert_equal({'a' => 2}, google.args)
+    hash = {'a' => 2}
+    google.args = hash
+    assert_equal(hash, google.args)
   end
   
   def test_cursor
@@ -71,24 +73,24 @@ class TestGoogle < MiniTest::Unit::TestCase
     refute_empty(google_results)
   end
   
-  # def test_cursor
-  #   google = Google.new('key','query')
-  #   cursor = google.cursor
-  #   
-  #   assert_nil(cursor)
-  #   # assert_kind_of(Google::Cursor, cursor)
-  #   
-  #   assert_kind_of(Array, cursor.pages)
-  #   
-  #   assert_kind_of(Fixnum, cursor.estimated_result_count)
-  #   assert(cursor.estimated_result_count >= 0)
-  #   
-  #   assert_kind_of(Fixnum, cursor.current_page_index)
-  #   assert_equal(cursor.current_page_index, 0)
-  #   
-  #   refute_nil(cursor.more_results_url)
-  #   assert_kind_of(String, cursor.more_results_url)
-  #   refute_empty(cursor.more_results_url)
-  # end
+  def test_cursor
+    google = Google.new('key','query')
+    cursor = google.cursor
+    
+    assert_nil(cursor)
+    # assert_kind_of(Google::Cursor, cursor)
+    
+    assert_kind_of(Array, cursor.pages)
+    
+    assert_kind_of(Fixnum, cursor.estimated_result_count)
+    assert(cursor.estimated_result_count >= 0)
+    
+    assert_kind_of(Fixnum, cursor.current_page_index)
+    assert_equal(cursor.current_page_index, 0)
+    
+    refute_nil(cursor.more_results_url)
+    assert_kind_of(String, cursor.more_results_url)
+    refute_empty(cursor.more_results_url)
+  end
   
 end
