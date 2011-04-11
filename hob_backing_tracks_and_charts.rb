@@ -13,7 +13,7 @@ def get_file(href)
 
   if (File.exists?(BASE_DIR + fname))
 
-    puts " exists, skipping."
+    puts " exists, skipping"
 
   else 
 
